@@ -1,18 +1,19 @@
-import { View, Text, ScrollView, Image } from "react-native";
+import { View, Text, ScrollView, Image, TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Link } from "expo-router";
+import { Link, useRouter } from "expo-router";
 
 import DashboardCard from "../../components/DashboardCard.jsx";
 import QueueInfo from "../../components/QueueInfo.jsx";
 import RecentQueue from "../../components/RecentQueue.jsx";
 
-import avatars from "../../constants/avatars.js";
 import icons from "../../constants/icons.js";
+import Entypo from "@expo/vector-icons/Entypo";
 
 const HomeTab = () => {
-  const userPhoto = avatars.businessman;
+  const router = useRouter();
+  const isAdmin = true;
   return (
-    <SafeAreaView className="h-full bg-primaryBackground">
+    <SafeAreaView className="h-full bg-primaryBackground relative">
       <ScrollView>
         <View className="w-full min-h-full py-4 px-4">
           {/* HEADING */}
@@ -29,15 +30,35 @@ const HomeTab = () => {
               <Text className="text-gray-500">Sunday, Nov 17</Text>
             </View>
 
-            <Link href="../../profile">
-              <View className="justify-center">
-                <Image
-                  source={userPhoto}
-                  resizeMode="contain"
-                  className="w-10 h-10"
-                />
+            <View className="flex-row items-center space-x-3">
+              {isAdmin ? (
+                <TouchableOpacity
+                  activeOpacity={0.8}
+                  onPress={() => router.push("/addQueue")}
+                >
+                  <View className="p-1 bg-primary shadow-sm rounded-full">
+                    <Entypo name="plus" size={29} color="white" />
+                  </View>
+                </TouchableOpacity>
+              ) : (
+                <Link href="#">
+                  <Image
+                    source={icons.premium}
+                    resizeMode="contain"
+                    className="w-8 h-8"
+                  />
+                </Link>
+              )}
+              <View className="shadow-sm">
+                <TouchableOpacity onPress={() => router.push("../../profile")}>
+                  <Image
+                    source={require("../../assets/images/meme.jpg")}
+                    resizeMode="cover"
+                    className="w-10 h-10 rounded-full"
+                  />
+                </TouchableOpacity>
               </View>
-            </Link>
+            </View>
           </View>
           <QueueInfo containerStyle="mb-3" />
           {/* DASHBOARD BODY */}

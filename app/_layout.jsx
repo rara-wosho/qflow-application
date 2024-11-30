@@ -1,10 +1,16 @@
 import { useEffect } from "react";
+import { TouchableOpacity, Text } from "react-native";
 import { useFonts } from "expo-font";
-import { SplashScreen, Stack, Tabs } from "expo-router";
+import { SplashScreen, Stack, useRouter } from "expo-router";
+
+import AntDesign from "@expo/vector-icons/AntDesign";
+import EvilIcons from "@expo/vector-icons/EvilIcons";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
+
 const RootLayout = () => {
+  const router = useRouter();
   const [fontsLoaded, error] = useFonts({
     "Poppins-Bold": require("../assets/fonts/Poppins-Bold.ttf"),
     "Poppins-Regular": require("../assets/fonts/Poppins-Regular.ttf"),
@@ -42,8 +48,16 @@ const RootLayout = () => {
           headerTintColor: "#a976e5",
           title: "Queue",
           headerShown: true,
+          headerRight: () => (
+            <TouchableOpacity
+              onPress={() => router.push("activeQueue/queueDetails")}
+            >
+              <EvilIcons name="navicon" size={32} color="rgb(80,80,80) " />
+            </TouchableOpacity>
+          ),
         }}
       />
+
       <Stack.Screen
         name="scanCode/index"
         options={{
@@ -60,7 +74,35 @@ const RootLayout = () => {
           headerShown: true,
         }}
       />
+
       <Stack.Screen name="profile/index" />
+
+      <Stack.Screen
+        name="activeQueue/queueDetails"
+        options={{
+          presentation: "modal",
+          headerShown: true,
+          title: "Queue Details",
+          headerTitleStyle: { color: "#a976e5" },
+        }}
+      />
+      <Stack.Screen
+        name="addQueue/index"
+        options={{
+          presentation: "modal",
+          headerShown: true,
+          title: "New Queue",
+          headerTitleStyle: { color: "#a976e5" },
+          headerLeft: () => (
+            <TouchableOpacity onPress={() => router.back()}>
+              <Text className="text-gray-600 font-pregular text-lg">
+                Cancel
+              </Text>
+              {/* <AntDesign name="close" size={24} color="gray" /> */}
+            </TouchableOpacity>
+          ),
+        }}
+      />
     </Stack>
   );
 };

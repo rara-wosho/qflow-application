@@ -69,19 +69,19 @@ const SignUp = () => {
                   containerStyles="mb-5"
                   placeholder="Doe"
                 />
-                <FormField
-                  title="Middle Name"
-                  value={form.password}
-                  handleChangeText={(e) => setForm({ ...form, password: e })}
-                  containerStyles="mb-5"
-                  placeholder="Miller"
-                />
-                <View className="flex-row items-center">
+                <View className="flex-row">
+                  <FormField
+                    title="Middle Name"
+                    value={form.password}
+                    handleChangeText={(e) => setForm({ ...form, password: e })}
+                    containerStyles="mb-5 flex-1 mr-3"
+                    placeholder="Miller"
+                  />
                   <FormField
                     title="Age"
                     value={form.password}
                     handleChangeText={(e) => setForm({ ...form, password: e })}
-                    containerStyles="flex-1 mb-5"
+                    containerStyles="w-28"
                     placeholder=""
                   />
                 </View>
@@ -91,7 +91,7 @@ const SignUp = () => {
                       containerStyle={{
                         justifyContent: "center",
                         borderWidth: 1,
-                        borderColor: "gray",
+                        borderColor: "rgb(210,210,210) ",
                         padding: 16,
                         borderRadius: 12,
                       }}
@@ -113,7 +113,7 @@ const SignUp = () => {
                       containerStyle={{
                         justifyContent: "center",
                         borderWidth: 1,
-                        borderColor: "gray",
+                        borderColor: "rgb(210,210,210) ",
                         padding: 16,
                         borderRadius: 12,
                       }}

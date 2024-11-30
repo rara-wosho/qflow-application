@@ -1,27 +1,58 @@
-import { View, Text, ScrollView, Image } from "react-native";
+import { View, Text, ScrollView, Image, TouchableOpacity } from "react-native";
 import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
+import { LinearGradient } from "expo-linear-gradient";
 
 import icons from "../../constants/icons";
 import QueueCard from "../../components/QueueCard";
+import { Dialog } from "react-native-ui-lib";
+import QueueStatusCard from "../../components/QueueStatusCard";
+import YourSlot from "../../components/YourSlot";
 
 const ActiveQueue = () => {
-  const [activeQueue, setActiveQueue] = useState(null);
+  const [activeQueue, setActiveQueue] = useState(1);
   const router = useRouter();
 
   return (
     <SafeAreaView className="h-full bg-primaryBackground">
       {activeQueue ? (
-        <ScrollView contentContainerStyle={{ height: "100%" }}>
-          <View className="w-full min-h-full px-3">
-            <QueueCard name="JOne Doe" slot={2} />
-            <QueueCard name="Rafael Alfonos" slot={3} />
-            <QueueCard name="JOshua Mae" slot={4} />
-            <QueueCard name="Karina Aguas" slot={5} />
-            <QueueCard name="James Herbert" slot={6} />
+        <>
+          <View className="px-3">
+            <QueueStatusCard />
           </View>
-        </ScrollView>
+          <YourSlot slotNumber={223} />
+          <ScrollView
+            contentContainerStyle={{ minHeight: "100vh", paddingBottom: 10 }}
+          >
+            <View className="w-full min-h-full px-3 relative">
+              <QueueCard name="JOne Doe" slot={223} isPrio={true} />
+              <QueueCard name="JOshua Mae" slot={224} />
+              <QueueCard name="Karina Aguas" slot={225} />
+              <QueueCard name="James Herbert" slot={226} isPrio={true} />
+              <QueueCard name="JOshua Mae" slot={227} />
+              <QueueCard name="Karina Aguas" slot={228} />
+              <QueueCard name="James Herbert" slot={229} />
+              <QueueCard name="JOne Doe" slot={230} />
+              <QueueCard name="JOshua Mae" slot={231} />
+              <QueueCard name="Karina Aguas" slot={232} />
+              <QueueCard name="James Herbert" slot={233} />
+              <QueueCard name="JOne Doe" slot={2} />
+              <QueueCard
+                name="Rafael AlfonosAlfonosAlfonosAlfonosAlfonosAlfonosAlfonosAlfonosAlfonosAlfonosAlfonosAlfonos"
+                slot={443}
+              />
+              <QueueCard
+                name="Rafael AlfonosAlfonosAlfonosAlfonosAlfonosAlfonosAlfonosAlfonosAlfonosAlfonosAlfonosAlfonos"
+                slot={443}
+              />
+              <QueueCard
+                name="Rafael AlfonosAlfonosAlfonosAlfonosAlfonosAlfonosAlfonosAlfonosAlfonosAlfonosAlfonosAlfonos"
+                slot={443}
+              />
+            </View>
+          </ScrollView>
+        </>
       ) : (
         <View className="my-auto items-center justify-center">
           <View className="flex-row items-center">

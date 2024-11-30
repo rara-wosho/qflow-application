@@ -25,7 +25,11 @@ module.exports = {
         },
         primaryBlack: "rgb(40,40,40)",
         secondaryBlack: "rgb(70,70,70)",
-        primaryText: "#4c2876",
+        primaryText: {
+          DEFAULT: "#4c2876",
+          1: "#735497",
+          2: "#7c6894",
+        },
       },
       fontFamily: {
         pregular: ["Poppins-Regular", "sans-serif"],

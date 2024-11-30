@@ -12,7 +12,7 @@ const FormField = ({
   const [isFocused, setIsFocused] = useState(false);
 
   return (
-    <View className={`${containerStyles}`}>
+    <View className={` ${containerStyles}`}>
       <View className="relative border-gray-300 border rounded-xl justify-center">
         <Text className="absolute -top-3 left-2 bg-white px-2 font-pregular text-gray-500 mb-1 text-base">
           {title}
@@ -20,8 +20,11 @@ const FormField = ({
         <TextField
           showClearButton
           containerStyle={{
-            paddingHorizontal: 15,
-            paddingVertical: 18,
+            width: "100%",
+          }}
+          fieldStyle={{
+            paddingVertical: 15,
+            paddingHorizontal: 10,
           }}
           style={{
             fontSize: 18,
@@ -34,26 +37,6 @@ const FormField = ({
         />
       </View>
     </View>
-    // <View className={`space-y-1 mb-4 ${containerStyles}`}>
-    //   <Text className="text-pregular text-primaryBlack opacity-70 text-lg">
-    //     {title}
-    //   </Text>
-    //   <View
-    //     className={`border-[1px] px-3 w-full rounded-xl ${
-    //       isFocused ? "border-primary" : "border-gray-300"
-    //     }`}
-    //   >
-    //     <TextInput
-    //       style={{ height: 54 }}
-    //       className="flex-1 text-gray-700 text-lg font-pregular"
-    //       placeholder={placeholder}
-    //       onFocus={() => setIsFocused(true)}
-    //       onBlur={() => setIsFocused(false)}
-    //       onChangeText={handleChangeText}
-    //       value={value}
-    //     />
-    //   </View>
-    // </View>
   );
 };
 

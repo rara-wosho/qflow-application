@@ -56,8 +56,8 @@ const SignIn = () => {
               title="Sign In"
               handlePress={() => router.push("../home")}
             />
-            <Link href="../home">Home</Link>
-            <Link href="/">index</Link>
+            {/* <Link href="../home">Home</Link>
+            <Link href="/">index</Link> */}
 
             <View className="relative  mt-12 mb-10">
               <View className="w-28 h-[1px] bg-gray-300 top-[7px] absolute left-6"></View>

@@ -14,6 +14,7 @@ import profile from "../assets/icons/profile.png";
 import queue from "../assets/icons/queue.png";
 import female from "../assets/icons/female.png";
 import male from "../assets/icons/male.png";
+import premium from "../assets/icons/premium.png";
 
 import primaryLogo from "../assets/logo/logo1.png";
 import secondaryLogo from "../assets/logo/logo4.png";
@@ -43,4 +44,5 @@ export default {
   profile,
   female,
   male,
+  premium,
 };
