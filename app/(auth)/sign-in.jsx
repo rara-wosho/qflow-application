@@ -5,34 +5,48 @@ import { Link } from "expo-router";
 import FormField from "../../components/FormField";
 import PrimaryButton from "../../components/PrimaryButton";
 import { Alert } from "react-native";
+import { useRouter } from "expo-router";
+
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 
 import icons from "../../constants/icons";
 
 const SignIn = () => {
+  const auth = getAuth();
+  const router = useRouter(); // Initialize the router
+
+  const [buttonIsLoading, setbuttonIsLoading] = useState(false);
   const [form, setForm] = useState({
     email: "",
     password: "",
   });
 
   const handleSignIn = () => {
-    if (!form.email) {
-      Alert.alert("Email is required", "Please provide a valid email address");
-    } else if (!form.password) {
-      Alert.alert("Password is required", "Please input a password");
-    } else {
-      Alert.alert("Welcome back, " + form.email);
-    }
-    // signInWithEmailAndPassword(auth, form.email, form.password)
-    //   .then((userCredential) => {
-    //     // Signed in
-    //     const user = userCredential.user;
-    //     // ...
-    //     console.log(user);
-    //   })
-    //   .catch((error) => {
-    //     const errorCode = error.code;
-    //     const errorMessage = error.message;
-    //   });
+    router.replace("/home");
+
+    // if (!form.email) {
+    //   Alert.alert("Email is required", "Please provide a valid email address");
+    // } else if (!form.password) {
+    //   Alert.alert("Password is required", "Please input a password");
+    // } else {
+    //   setbuttonIsLoading(true);
+    //   signInWithEmailAndPassword(auth, form.email, form.password)
+    //     .then((userCredential) => {
+    //       // Signed in
+    //       const user = userCredential.user;
+    //       setbuttonIsLoading(false);
+
+    //       setTimeout(() => {
+    //         // Redirect to the homepage
+    //       }, 500);
+    //     })
+    //     .catch((error) => {
+    //       const errorCode = error.code;
+    //       const errorMessage = error.message;
+    //       Alert.alert("Credentials Didn't Match", "Please try again");
+    //       setbuttonIsLoading(false);
+    //     });
+    // }
   };
 
   return (
@@ -81,6 +95,7 @@ const SignIn = () => {
               containerStyle="w-full mt-5 rounded-xl "
               title="Sign In"
               handlePress={handleSignIn}
+              isLoading={buttonIsLoading}
             />
             <Link href="../home">Home</Link>
             <Link href="/">index</Link>

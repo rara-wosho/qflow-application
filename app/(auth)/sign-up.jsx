@@ -1,13 +1,17 @@
-import { View, Text, ScrollView, Image, Pressable } from "react-native";
+import { View, Text, ScrollView, Image, Pressable, Alert } from "react-native";
 import { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Link, useRouter } from "expo-router";
 import FormField from "../../components/FormField";
 import { RadioButton } from "react-native-ui-lib";
+
+// FIREBASE
 import { createUserWithEmailAndPassword } from "firebase/auth";
-
+import { doc, setDoc } from "firebase/firestore";
 import { auth } from "../../firebaseConfig";
+import { db } from "../../firebaseConfig";
 
+// COMPONENTS
 import PrimaryButton from "../../components/PrimaryButton";
 import DotPagination from "../../components/DotPagination";
 
@@ -46,6 +50,8 @@ const SignUp = () => {
         alert("Last Name is required");
       } else if (!form.age) {
         alert("Age is required");
+      } else if (form.age < 2) {
+        alert("Please enter a valid age");
       } else {
         setActiveForm((prev) => prev + 1);
       }
@@ -69,7 +75,7 @@ const SignUp = () => {
     }
   };
 
-  const handleSignUp = () => {
+  const handleSignUp = async () => {
     if (!form.email) {
       alert("Email is required");
     } else if (!form.password || !form.confirmPassword) {
@@ -81,19 +87,41 @@ const SignUp = () => {
     } else {
       setButtonLoading(true);
 
-      createUserWithEmailAndPassword(auth, form.email, form.password)
-        .then((userCredential) => {
-          const user = userCredential.user;
-          setButtonLoading(false);
-          alert("Sign up successfully");
-          console.log("Sign up successfully");
-        })
-        .catch((error) => {
-          setButtonLoading(false);
-          const errorCode = error.code;
-          const errorMessage = error.message;
-          console.log(errorMessage);
-        });
+      try {
+        // Create user with Firebase Authentication
+        const userCredential = await createUserWithEmailAndPassword(
+          auth,
+          form.email,
+          form.password
+        );
+        const user = userCredential.user;
+
+        // Save additional user information to Firestore
+        const userData = {
+          firstName: form.firstName,
+          lastName: form.lastName,
+          middleName: form.middleName,
+          age: form.age,
+          gender: form.gender,
+          street: form.street,
+          barangay: form.barangay,
+          city: form.city,
+          province: form.province,
+          email: form.email,
+          createdAt: new Date().toISOString(),
+        };
+
+        await setDoc(doc(db, "users", user.uid), userData);
+
+        // Optionally, navigate to another screen
+        Alert.alert("Signed Up Successfully", "Welcome to QFlow");
+        router.replace("/home");
+      } catch (error) {
+        console.error("Error during sign-up: ", error.message);
+        alert("Failed to sign up: " + error.message);
+      } finally {
+        setButtonLoading(false);
+      }
     }
   };
 

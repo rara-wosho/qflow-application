@@ -25,7 +25,7 @@ export default function app() {
             make long wait a thing of the past.
           </Text>
           <PrimaryButton
-            handlePress={() => router.push("/sign-in")}
+            handlePress={() => router.replace("/sign-in")}
             title="Get Started  "
             containerStyle="mt-10 w-full rounded-xl"
           />

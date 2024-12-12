@@ -2,8 +2,9 @@ import { View, Text, Image } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 
 import icons from "../constants/icons";
+import { useFrameCallback } from "react-native-reanimated";
 
-const QueueInfo = ({ containerStyle }) => {
+const QueueInfo = ({ containerStyle, userData }) => {
   return (
     <View
       className={`rounded-xl shadow overflow-hidden border-l-4 border-l-secondary-400 ${containerStyle}`}
@@ -23,19 +24,27 @@ const QueueInfo = ({ containerStyle }) => {
           <View className="flex-1">
             <View className="flex-row items-center space-x-2">
               <Text className="text-xl font-psemibold text-primaryText">
-                Israel De Vera
+                {userData.firstName + " " + userData.lastName}
               </Text>
               <Text className="text-xl font-psemibold text-primaryText">
-                20
+                {userData.age}
               </Text>
             </View>
             <View className="flex-row">
               <Text className="text-md font-pregular text-gray-600 flex-shrink">
-                Phase-2 Tipanoy, Iligan City
+                {userData.street +
+                  " " +
+                  userData.barangay +
+                  ", " +
+                  userData.city +
+                  ", " +
+                  userData.province}
               </Text>
             </View>
             <View className="flex-row">
-              <Text className="text-md font-pregular text-gray-600">Male</Text>
+              <Text className="text-md font-pregular text-gray-600">
+                {userData.gender === "male" ? "Male" : "Female"}
+              </Text>
             </View>
           </View>
           <View className="items-center justify-items-center rounded-lg p-2">

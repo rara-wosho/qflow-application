@@ -1,6 +1,12 @@
 import { View, Text, ScrollView, Image, TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Link, useRouter } from "expo-router";
+import { useState, useEffect } from "react";
+
+// FIREBASE
+import { doc, getDoc } from "firebase/firestore";
+import { auth, db } from "../../firebaseConfig";
+import { onAuthStateChanged } from "firebase/auth";
 
 import DashboardCard from "../../components/DashboardCard.jsx";
 import QueueInfo from "../../components/QueueInfo.jsx";
@@ -8,14 +14,48 @@ import RecentQueue from "../../components/RecentQueue.jsx";
 
 import icons from "../../constants/icons.js";
 import Entypo from "@expo/vector-icons/Entypo";
-import MaterialIcons from "@expo/vector-icons/MaterialIcons";
-import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
-import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
-import AntDesign from "@expo/vector-icons/AntDesign";
 
 const HomeTab = () => {
   const router = useRouter();
-  const isAdmin = true;
+  const [user, setUser] = useState(null); // To store user data
+  const [loading, setLoading] = useState(true); // To handle loading state
+
+  useEffect(() => {
+    const fetchUserData = async (uid) => {
+      try {
+        const userDoc = await getDoc(doc(db, "users", uid));
+        if (userDoc.exists()) {
+          setUser(userDoc.data());
+        } else {
+          console.warn("No such user data found!");
+        }
+      } catch (error) {
+        console.error("Error fetching user data: ", error.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      if (currentUser) {
+        fetchUserData(currentUser.uid);
+      } else {
+        setLoading(false);
+        router.replace("/sign-in"); // Redirect to login if no user is signed in
+      }
+    });
+
+    return () => unsubscribe(); // Cleanup listener
+  }, []);
+
+  if (loading) {
+    return (
+      <SafeAreaView className="h-full bg-primaryBackground flex items-center justify-center">
+        <Text className="text-gray-600">Loading...</Text>
+      </SafeAreaView>
+    );
+  }
+
   return (
     <SafeAreaView className="h-full bg-primaryBackground relative">
       <ScrollView>
@@ -28,14 +68,20 @@ const HomeTab = () => {
                   Hello,{" "}
                 </Text>
                 <Text className="text-2xl font-psemibold text-primary">
-                  Israel
+                  {user?.firstName || "User"}
                 </Text>
               </View>
-              <Text className="text-gray-500">Sunday, Nov 17</Text>
+              <Text className="text-gray-500">
+                {new Date().toLocaleDateString("en-US", {
+                  weekday: "long",
+                  month: "short",
+                  day: "numeric",
+                })}
+              </Text>
             </View>
 
             <View className="flex-row items-center space-x-3">
-              {isAdmin ? (
+              {user?.isAdmin ? (
                 <TouchableOpacity
                   activeOpacity={0.8}
                   onPress={() => router.push("/addQueue")}
@@ -56,7 +102,11 @@ const HomeTab = () => {
               <View className="shadow-sm">
                 <TouchableOpacity onPress={() => router.push("../../profile")}>
                   <Image
-                    source={require("../../assets/images/meme.jpg")}
+                    source={
+                      user?.profilePic
+                        ? { uri: user.profilePic }
+                        : require("../../assets/images/meme.jpg")
+                    }
                     resizeMode="cover"
                     className="w-10 h-10 rounded-full"
                   />
@@ -64,7 +114,7 @@ const HomeTab = () => {
               </View>
             </View>
           </View>
-          <QueueInfo containerStyle="mb-3" />
+          <QueueInfo containerStyle="mb-3" userData={user} />
           {/* DASHBOARD BODY */}
           <View className="dashboard cards py-1 flex-row">
             <DashboardCard
