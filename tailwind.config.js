@@ -22,6 +22,11 @@ module.exports = {
         third: {
           DEFAULT: "#f5ab16",
           1: "",
+          2: "#edfff4",
+          9: "#31a85f",
+        },
+        gold: {
+          0: "#fffbeb",
         },
         primaryBlack: "rgb(40,40,40)",
         secondaryBlack: "rgb(70,70,70)",

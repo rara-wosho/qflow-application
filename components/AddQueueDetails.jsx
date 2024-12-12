@@ -47,6 +47,7 @@ const AddQueueDetails = ({ queueDetails, setQueueDetails }) => {
         label="Venue/Location"
         icon={<SimpleLineIcons name="location-pin" size={22} color="black" />}
         placeholder="Provide the area or venue"
+        value={queueDetails.location}
       />
     </View>
   );

@@ -8,6 +8,10 @@ import RecentQueue from "../../components/RecentQueue.jsx";
 
 import icons from "../../constants/icons.js";
 import Entypo from "@expo/vector-icons/Entypo";
+import MaterialIcons from "@expo/vector-icons/MaterialIcons";
+import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
+import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
+import AntDesign from "@expo/vector-icons/AntDesign";
 
 const HomeTab = () => {
   const router = useRouter();
@@ -72,7 +76,7 @@ const HomeTab = () => {
             <DashboardCard
               title="Scan & Join"
               containerStyle="ml-1"
-              icon={icons.qrcode}
+              icon={icons.qr}
               link="/scanCode"
             />
           </View>

@@ -1,5 +1,4 @@
 export const PRIORITY_OPTIONS = [
-  { value: true, label: "No one", data: "no-one" },
   { value: false, label: "PWD", data: "pwd" },
   { value: false, label: "Pregnant", data: "pregnant" },
   { value: false, label: "Senior Citizen", data: "senior-citizen" },

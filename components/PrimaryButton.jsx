@@ -2,7 +2,7 @@ import { Text, TouchableOpacity, View } from "react-native";
 
 import { LinearGradient } from "expo-linear-gradient";
 
-const PrimaryButton = ({ title, containerStyle, handlePress }) => {
+const PrimaryButton = ({ title, containerStyle, handlePress, isLoading }) => {
   return (
     <View
       className={`justify-center items-center ${containerStyle} overflow-hidden`}
@@ -23,12 +23,12 @@ const PrimaryButton = ({ title, containerStyle, handlePress }) => {
         }}
       >
         <TouchableOpacity
-          className="py-4 w-full items-center justify-center"
+          className="py-[14px] w-full items-center justify-center"
           onPress={handlePress}
           activeOpacity={0.7}
         >
           <Text className="text-white font-psemibold text-xl px-5">
-            {title}
+            {isLoading ? "Please wait..." : title}
           </Text>
         </TouchableOpacity>
       </LinearGradient>

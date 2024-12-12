@@ -1,31 +1,56 @@
 import { View, Text, ScrollView, Image } from "react-native";
 import { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Link, router } from "expo-router";
+import { Link } from "expo-router";
 import FormField from "../../components/FormField";
 import PrimaryButton from "../../components/PrimaryButton";
+import { Alert } from "react-native";
 
 import icons from "../../constants/icons";
 
 const SignIn = () => {
   const [form, setForm] = useState({
-    username: "John Doe",
-    password: "1234",
+    email: "",
+    password: "",
   });
+
+  const handleSignIn = () => {
+    if (!form.email) {
+      Alert.alert("Email is required", "Please provide a valid email address");
+    } else if (!form.password) {
+      Alert.alert("Password is required", "Please input a password");
+    } else {
+      Alert.alert("Welcome back, " + form.email);
+    }
+    // signInWithEmailAndPassword(auth, form.email, form.password)
+    //   .then((userCredential) => {
+    //     // Signed in
+    //     const user = userCredential.user;
+    //     // ...
+    //     console.log(user);
+    //   })
+    //   .catch((error) => {
+    //     const errorCode = error.code;
+    //     const errorMessage = error.message;
+    //   });
+  };
 
   return (
     <SafeAreaView className="bg-primary h-full">
-      <ScrollView>
-        <View className="min-h-full w-full items-center justify-start">
-          <View className="items-center w-full pt-3 pb-2">
+      <View className="min-h-full">
+        <View className="px-3 min-h-full w-full items-center justify-start">
+          <View className="items-center w-full pt-3 pb-5">
             <Image
               className="w-48 h-20"
               resizeMode="contain"
               source={icons.secondaryLogo}
             />
+            <Text className="text-white px-3 font-pregular text-center text-lg py-3 ">
+              Welcome to QFlow. Please provide your credentials to continue.
+            </Text>
           </View>
-          <View className="bg-white px-5 pt-4 w-full rounded-t-3xl flex-1">
-            <View className="flex-row space-x-2 items-end justify-center pt-8 pb-10">
+          <View className="bg-white px-3 pt-4 w-full rounded-t-3xl flex-1">
+            <View className="flex-row space-x-2 items-end justify-center pt-6 pb-8">
               <Image
                 source={icons.profile}
                 resizeMode="contain"
@@ -38,8 +63,8 @@ const SignIn = () => {
 
             <FormField
               title="Email"
-              value={form.username}
-              handleChangeText={(e) => setForm({ ...form, username: e })}
+              value={form.email}
+              handleChangeText={(e) => setForm({ ...form, email: e })}
               containerStyles="mb-5"
               placeholder="Enter your email"
             />
@@ -49,17 +74,18 @@ const SignIn = () => {
               handleChangeText={(e) => setForm({ ...form, password: e })}
               containerStyles="mb-3"
               placeholder="Enter password"
+              inputType="password"
             />
             <Text className=" text-primaryBlack">Forgot password?</Text>
             <PrimaryButton
-              containerStyle="w-full mt-8 rounded-xl "
+              containerStyle="w-full mt-5 rounded-xl "
               title="Sign In"
-              handlePress={() => router.push("../home")}
+              handlePress={handleSignIn}
             />
-            {/* <Link href="../home">Home</Link>
-            <Link href="/">index</Link> */}
+            <Link href="../home">Home</Link>
+            <Link href="/">index</Link>
 
-            <View className="relative  mt-12 mb-10">
+            <View className="relative  mt-7 mb-5">
               <View className="w-28 h-[1px] bg-gray-300 top-[7px] absolute left-6"></View>
               <View className="w-28 h-[1px] bg-gray-300 top-[7px] absolute right-6"></View>
               <Text className="text-secondaryBlack text-center">
@@ -102,7 +128,7 @@ const SignIn = () => {
             </View>
           </View>
         </View>
-      </ScrollView>
+      </View>
     </SafeAreaView>
   );
 };

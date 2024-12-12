@@ -4,6 +4,9 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { Link, useRouter } from "expo-router";
 import FormField from "../../components/FormField";
 import { RadioButton } from "react-native-ui-lib";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+
+import { auth } from "../../firebaseConfig";
 
 import PrimaryButton from "../../components/PrimaryButton";
 import DotPagination from "../../components/DotPagination";
@@ -13,18 +16,91 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 
 const SignUp = () => {
   const router = useRouter();
-  const [activeForm, setActiveForm] = useState(1);
 
+  // change visible form
+  const [activeForm, setActiveForm] = useState(1);
+  const [buttonLoading, setButtonLoading] = useState(false);
+
+  // registation details
   const [form, setForm] = useState({
-    username: "",
-    password: "",
+    firstName: "",
+    lastName: "",
+    middleName: "",
+    age: "",
     gender: "male",
+    street: "",
+    barangay: "",
+    city: "",
+    province: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
   });
+
+  // validate form field for each forms
+  const handleNext = () => {
+    if (activeForm === 1) {
+      if (!form.firstName) {
+        alert("First Name is required");
+      } else if (!form.lastName) {
+        alert("Last Name is required");
+      } else if (!form.age) {
+        alert("Age is required");
+      } else {
+        setActiveForm((prev) => prev + 1);
+      }
+    } else if (activeForm === 2) {
+      if (!form.street) {
+        alert("Street is required");
+      } else if (!form.barangay) {
+        alert("Barangay is required");
+      } else if (!form.city) {
+        alert("City/Municipality is required");
+      } else if (!form.province) {
+        alert("Province is required");
+      } else {
+        setActiveForm((prev) => prev + 1);
+      }
+    }
+  };
+  const handlePrev = () => {
+    if (activeForm !== 1) {
+      setActiveForm((prev) => prev - 1);
+    }
+  };
+
+  const handleSignUp = () => {
+    if (!form.email) {
+      alert("Email is required");
+    } else if (!form.password || !form.confirmPassword) {
+      alert("Password is required");
+    } else if (form.password.length < 6) {
+      alert("Password must be at least 6 characters");
+    } else if (form.password !== form.confirmPassword) {
+      alert("Passwords don't match");
+    } else {
+      setButtonLoading(true);
+
+      createUserWithEmailAndPassword(auth, form.email, form.password)
+        .then((userCredential) => {
+          const user = userCredential.user;
+          setButtonLoading(false);
+          alert("Sign up successfully");
+          console.log("Sign up successfully");
+        })
+        .catch((error) => {
+          setButtonLoading(false);
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          console.log(errorMessage);
+        });
+    }
+  };
 
   return (
     <SafeAreaView className="bg-primary h-full">
       <ScrollView>
-        <View className="min-h-full w-full items-center justify-start">
+        <View className=" min-h-full w-full items-center justify-start">
           <View className="items-center w-full pt-3 pb-2 relative">
             <Image
               className="w-48 h-20"
@@ -39,7 +115,7 @@ const SignUp = () => {
               <Ionicons name="chevron-back" size={24} color="white" />
             </Pressable>
           </View>
-          <View className="px-4 pb-8 pt-4 w-full rounded-t-3xl bg-white flex-1">
+          <View className="px-3 pb-8 pt-4 w-full rounded-t-3xl bg-white flex-1">
             <View className="flex-row space-x-2 items-end justify-center py-3">
               <Image
                 source={icons.profile}
@@ -50,39 +126,44 @@ const SignUp = () => {
                 Sign Up
               </Text>
             </View>
+            <Text className="mb-4 mt-4 text-primary font-psemibold text-base">
+              {activeForm === 1 && "Personal Information"}
+              {activeForm === 2 && "Address"}
+              {activeForm === 3 && "Credentials"}
+            </Text>
             {activeForm === 1 && (
               <View className="personal-info-form">
-                <Text className="mb-3 mt-4 text-primary font-psemibold text-base">
-                  Personal Information
-                </Text>
                 <FormField
                   title="First Name"
-                  value={form.username}
-                  handleChangeText={(e) => setForm({ ...form, username: e })}
+                  value={form.firstName}
+                  handleChangeText={(e) => setForm({ ...form, firstName: e })}
                   containerStyles="mb-5 "
                   placeholder="John"
                 />
                 <FormField
                   title="Last Name"
-                  value={form.password}
-                  handleChangeText={(e) => setForm({ ...form, password: e })}
+                  value={form.lastName}
+                  handleChangeText={(e) => setForm({ ...form, lastName: e })}
                   containerStyles="mb-5"
                   placeholder="Doe"
                 />
                 <View className="flex-row">
                   <FormField
                     title="Middle Name"
-                    value={form.password}
-                    handleChangeText={(e) => setForm({ ...form, password: e })}
+                    value={form.middleName}
+                    handleChangeText={(e) =>
+                      setForm({ ...form, middleName: e })
+                    }
                     containerStyles="mb-5 flex-1 mr-3"
                     placeholder="Miller"
                   />
                   <FormField
                     title="Age"
-                    value={form.password}
-                    handleChangeText={(e) => setForm({ ...form, password: e })}
+                    value={form.age}
+                    handleChangeText={(e) => setForm({ ...form, age: e })}
                     containerStyles="w-28"
                     placeholder=""
+                    inputType="numeric"
                   />
                 </View>
                 <View className="flex-row space-x-3 items-center rounded-lg justify-center">
@@ -105,7 +186,11 @@ const SignUp = () => {
                       size={20}
                       label={"Male"}
                       selected={form.gender === "male"}
-                      onPress={() => setForm({ ...form, gender: "male" })}
+                      onPress={() => {
+                        if (form.gender !== "male") {
+                          setForm({ ...form, gender: "male" });
+                        }
+                      }}
                     />
                   </View>
                   <View className="flex-1">
@@ -128,7 +213,11 @@ const SignUp = () => {
                       color="#b27bff"
                       label={"Female"}
                       selected={form.gender === "female"}
-                      onPress={() => setForm({ ...form, gender: "female" })}
+                      onPress={() => {
+                        if (form.gender !== "female") {
+                          setForm({ ...form, gender: "female" });
+                        }
+                      }}
                     />
                   </View>
                 </View>
@@ -137,34 +226,31 @@ const SignUp = () => {
 
             {activeForm === 2 && (
               <View className="address-form">
-                <Text className="mb-3 mt-4 text-primary font-psemibold text-base">
-                  Address
-                </Text>
                 <FormField
                   title="Street"
-                  value={form.password}
-                  handleChangeText={(e) => setForm({ ...form, password: e })}
+                  value={form.street}
+                  handleChangeText={(e) => setForm({ ...form, street: e })}
                   containerStyles="mb-5"
                   placeholder="e.g. Purok-23"
                 />
                 <FormField
                   title="Barangay"
-                  value={form.password}
-                  handleChangeText={(e) => setForm({ ...form, password: e })}
+                  value={form.barangay}
+                  handleChangeText={(e) => setForm({ ...form, barangay: e })}
                   containerStyles="mb-5"
                   placeholder="e.g. Adorable"
                 />
                 <FormField
                   title="City/Municipality"
-                  value={form.password}
-                  handleChangeText={(e) => setForm({ ...form, password: e })}
+                  value={form.city}
+                  handleChangeText={(e) => setForm({ ...form, city: e })}
                   containerStyles="mb-5"
                   placeholder="e.g. Jimenez"
                 />
                 <FormField
                   title="Province"
-                  value={form.password}
-                  handleChangeText={(e) => setForm({ ...form, password: e })}
+                  value={form.province}
+                  handleChangeText={(e) => setForm({ ...form, province: e })}
                   containerStyles="mb-5"
                   placeholder="e.g. Misamis Occidental"
                 />
@@ -174,13 +260,10 @@ const SignUp = () => {
             {activeForm === 3 && (
               <>
                 <View className="credential-form">
-                  <Text className="mb-3 mt-4 text-primary font-psemibold text-base">
-                    Credentials
-                  </Text>
                   <FormField
                     title="Email"
-                    value={form.password}
-                    handleChangeText={(e) => setForm({ ...form, password: e })}
+                    value={form.email}
+                    handleChangeText={(e) => setForm({ ...form, email: e })}
                     containerStyles="mb-5"
                     placeholder="sample@gmail.com"
                   />
@@ -189,26 +272,33 @@ const SignUp = () => {
                     value={form.password}
                     handleChangeText={(e) => setForm({ ...form, password: e })}
                     containerStyles="mb-5"
-                    placeholder=""
+                    inputType="password"
+                    placeholder="••••"
                   />
                   <FormField
                     title="Repeat Password"
-                    value={form.password}
-                    handleChangeText={(e) => setForm({ ...form, password: e })}
+                    value={form.confirmPassword}
+                    handleChangeText={(e) =>
+                      setForm({ ...form, confirmPassword: e })
+                    }
                     containerStyles="mb-5"
-                    placeholder=""
+                    inputType="password"
+                    placeholder="••••"
                   />
                 </View>
                 <PrimaryButton
                   containerStyle="w-full mt-3 rounded-xl "
                   title="Sign Up"
+                  handlePress={handleSignUp}
+                  isLoading={buttonLoading}
                 />
               </>
             )}
 
             <DotPagination
-              setActivePage={setActiveForm}
               activePage={activeForm}
+              handleNext={handleNext}
+              handlePrev={handlePrev}
               totalPage={3}
             />
             <View className="flex- flex-row justify-center pt-7">

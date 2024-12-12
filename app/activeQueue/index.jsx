@@ -11,7 +11,7 @@ import QueueStatusCard from "../../components/QueueStatusCard";
 import YourSlot from "../../components/YourSlot";
 
 const ActiveQueue = () => {
-  const [activeQueue, setActiveQueue] = useState(1);
+  const [activeQueue, setActiveQueue] = useState(null);
   const router = useRouter();
 
   return (

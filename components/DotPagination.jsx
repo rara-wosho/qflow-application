@@ -1,7 +1,7 @@
 import { View, Text, TouchableOpacity, Pressable } from "react-native";
 import React from "react";
 
-const DotPagination = ({ activePage, setActivePage, totalPage }) => {
+const DotPagination = ({ activePage, totalPage, handlePrev, handleNext }) => {
   return (
     <View className="pt-5 flex-row items-center justify-between">
       <TouchableOpacity
@@ -10,7 +10,7 @@ const DotPagination = ({ activePage, setActivePage, totalPage }) => {
         className={`bg-primary rounded-xl p-3 ${
           activePage === 1 && "opacity-50"
         }`}
-        onPress={() => setActivePage(activePage - 1)}
+        onPress={handlePrev}
       >
         <Text className=" text-white">Prev</Text>
       </TouchableOpacity>
@@ -37,7 +37,7 @@ const DotPagination = ({ activePage, setActivePage, totalPage }) => {
         className={`bg-primary rounded-xl p-3 ${
           activePage === totalPage && "opacity-50"
         }`}
-        onPress={() => setActivePage(activePage + 1)}
+        onPress={handleNext}
       >
         <Text className=" text-white">Next</Text>
       </TouchableOpacity>

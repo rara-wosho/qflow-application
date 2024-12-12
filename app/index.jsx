@@ -2,8 +2,7 @@ import React from "react";
 import { ScrollView, Text, View, Image } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import PrimaryButton from "../components/PrimaryButton";
-import { router, Redirect } from "expo-router";
-import SecondaryButton from "../components/SecondaryButton";
+import { router } from "expo-router";
 
 import icons from "../constants/icons";
 
