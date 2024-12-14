@@ -1,11 +1,20 @@
 import { Text, TouchableOpacity, View } from "react-native";
+import { LoaderScreen } from "react-native-ui-lib";
 
 import { LinearGradient } from "expo-linear-gradient";
 
-const PrimaryButton = ({ title, containerStyle, handlePress, isLoading }) => {
+const PrimaryButton = ({
+  title,
+  containerStyle,
+  handlePress,
+  isLoading,
+  disabled,
+}) => {
   return (
     <View
-      className={`justify-center items-center ${containerStyle} overflow-hidden`}
+      className={`justify-center items-center ${containerStyle} overflow-hidden ${
+        disabled && "opacity-50"
+      }`}
     >
       <LinearGradient
         colors={["#a976e5", "#e085da"]}
@@ -19,18 +28,24 @@ const PrimaryButton = ({ title, containerStyle, handlePress, isLoading }) => {
         }}
         style={{
           width: "100%",
+          height: 53,
           alignItems: "center",
         }}
       >
-        <TouchableOpacity
-          className="py-[14px] w-full items-center justify-center"
-          onPress={handlePress}
-          activeOpacity={0.7}
-        >
-          <Text className="text-white font-psemibold text-xl px-5">
-            {isLoading ? "Please wait..." : title}
-          </Text>
-        </TouchableOpacity>
+        {isLoading ? (
+          <LoaderScreen color="white" />
+        ) : (
+          <TouchableOpacity
+            disabled={disabled}
+            className="py-[14px] w-full items-center justify-center"
+            onPress={handlePress}
+            activeOpacity={0.7}
+          >
+            <Text className="text-white font-psemibold text-xl px-5">
+              {isLoading ? "Please wait..." : title}
+            </Text>
+          </TouchableOpacity>
+        )}
       </LinearGradient>
     </View>
   );

@@ -1,7 +1,8 @@
 import { View, Text, ScrollView, Image, TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Link, useRouter } from "expo-router";
+import { useRouter } from "expo-router";
 import { useState, useEffect } from "react";
+import { LoaderScreen } from "react-native-ui-lib";
 
 // FIREBASE
 import { doc, getDoc } from "firebase/firestore";
@@ -16,42 +17,37 @@ import icons from "../../constants/icons.js";
 import Entypo from "@expo/vector-icons/Entypo";
 
 const HomeTab = () => {
+  console.log("home");
   const router = useRouter();
-  const [user, setUser] = useState(null); // To store user data
-  const [loading, setLoading] = useState(true); // To handle loading state
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchUserData = async (uid) => {
-      try {
-        const userDoc = await getDoc(doc(db, "users", uid));
-        if (userDoc.exists()) {
-          setUser(userDoc.data());
-        } else {
-          console.warn("No such user data found!");
-        }
-      } catch (error) {
-        console.error("Error fetching user data: ", error.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       if (currentUser) {
-        fetchUserData(currentUser.uid);
+        try {
+          const userDoc = await getDoc(doc(db, "users", currentUser.uid));
+          if (userDoc.exists()) {
+            setUser(userDoc.data());
+          } else {
+            console.warn("No such user data found!");
+          }
+        } catch (error) {
+          console.error("Error fetching user data: ", error.message);
+        }
       } else {
-        setLoading(false);
-        router.replace("/sign-in"); // Redirect to login if no user is signed in
+        router.replace("/sign-in");
       }
+      setLoading(false);
     });
 
-    return () => unsubscribe(); // Cleanup listener
+    return () => unsubscribe();
   }, []);
 
   if (loading) {
     return (
       <SafeAreaView className="h-full bg-primaryBackground flex items-center justify-center">
-        <Text className="text-gray-600">Loading...</Text>
+        <LoaderScreen color="#a976e5" />
       </SafeAreaView>
     );
   }
@@ -81,7 +77,7 @@ const HomeTab = () => {
             </View>
 
             <View className="flex-row items-center space-x-3">
-              {user?.isAdmin ? (
+              {user?.isPremium ? (
                 <TouchableOpacity
                   activeOpacity={0.8}
                   onPress={() => router.push("/addQueue")}
@@ -91,16 +87,18 @@ const HomeTab = () => {
                   </View>
                 </TouchableOpacity>
               ) : (
-                <Link href="#">
+                <TouchableOpacity onPress={() => router.push("/subscription")}>
                   <Image
                     source={icons.premium}
                     resizeMode="contain"
                     className="w-8 h-8"
                   />
-                </Link>
+                </TouchableOpacity>
               )}
               <View className="shadow-sm">
-                <TouchableOpacity onPress={() => router.push("../../profile")}>
+                <TouchableOpacity
+                  onPress={() => router.push(`/profile?userID=${user?.userID}`)}
+                >
                   <Image
                     source={
                       user?.profilePic

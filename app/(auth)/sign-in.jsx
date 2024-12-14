@@ -1,4 +1,4 @@
-import { View, Text, ScrollView, Image } from "react-native";
+import { View, Text, Image } from "react-native";
 import { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Link } from "expo-router";
@@ -7,13 +7,14 @@ import PrimaryButton from "../../components/PrimaryButton";
 import { Alert } from "react-native";
 import { useRouter } from "expo-router";
 
+// FIREBASE
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 
 import icons from "../../constants/icons";
 
 const SignIn = () => {
   const auth = getAuth();
-  const router = useRouter(); // Initialize the router
+  const router = useRouter();
 
   const [buttonIsLoading, setbuttonIsLoading] = useState(false);
   const [form, setForm] = useState({
@@ -22,31 +23,28 @@ const SignIn = () => {
   });
 
   const handleSignIn = () => {
-    router.replace("/home");
+    if (!form.email) {
+      Alert.alert("Email is required", "Please provide a valid email address");
+    } else if (!form.password) {
+      Alert.alert("Password is required", "Please input a password");
+    } else {
+      setbuttonIsLoading(true);
+      signInWithEmailAndPassword(auth, form.email, form.password)
+        .then((userCredential) => {
+          // Signed in
+          const user = userCredential.user;
+          setbuttonIsLoading(false);
 
-    // if (!form.email) {
-    //   Alert.alert("Email is required", "Please provide a valid email address");
-    // } else if (!form.password) {
-    //   Alert.alert("Password is required", "Please input a password");
-    // } else {
-    //   setbuttonIsLoading(true);
-    //   signInWithEmailAndPassword(auth, form.email, form.password)
-    //     .then((userCredential) => {
-    //       // Signed in
-    //       const user = userCredential.user;
-    //       setbuttonIsLoading(false);
-
-    //       setTimeout(() => {
-    //         // Redirect to the homepage
-    //       }, 500);
-    //     })
-    //     .catch((error) => {
-    //       const errorCode = error.code;
-    //       const errorMessage = error.message;
-    //       Alert.alert("Credentials Didn't Match", "Please try again");
-    //       setbuttonIsLoading(false);
-    //     });
-    // }
+          // Redirect to the homepage
+          router.replace("/home");
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          Alert.alert("Credentials Didn't Match", "Please try again");
+          setbuttonIsLoading(false);
+        });
+    }
   };
 
   return (

@@ -108,6 +108,9 @@ const SignUp = () => {
           city: form.city,
           province: form.province,
           email: form.email,
+          queueCount: 0,
+          isPremium: 0,
+          userID: user.uid,
           createdAt: new Date().toISOString(),
         };
 

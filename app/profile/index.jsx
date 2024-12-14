@@ -7,24 +7,42 @@ import {
   ImageBackground,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import ProfileActions from "../../components/ProfileActions";
+import { LoaderScreen } from "react-native-ui-lib";
 
 import avatar from "../../constants/avatars";
 import icons from "../../constants/icons";
 import { useRouter } from "expo-router";
+import { useState } from "react";
 
 const Profile = () => {
   const router = useRouter();
+  const userID = router.query?.userID;
+
+  const [screenLoading, setScreenLoading] = useState(false);
+
+  console.log(userID);
+  if (screenLoading) {
+    return (
+      <SafeAreaView className="h-full bg-primaryBackground flex items-center justify-center">
+        <LoaderScreen color="#a976e5" />
+      </SafeAreaView>
+    );
+  }
+
   return (
     <SafeAreaView className="h-full bg-primary">
       <ScrollView contentContainerStyle={{ height: "100%" }}>
         <View className="w-full min-h-full relative pt-28">
-          <Image
-            resizeMode="contain"
-            className="absolute w-44 h-28 right-1/2 translate-x-[-50%]"
-            source={icons.secondaryLogo}
-          ></Image>
+          <View className="absolute items-center justify-center w-full">
+            <Image
+              resizeMode="contain"
+              className=" w-44 h-28"
+              source={icons.secondaryLogo}
+            ></Image>
+          </View>
           <View className="bg-primaryBackground rounded-t-3xl flex-1 relative pt-24 px-3">
-            <View className="items-center absolute -top-16 justify-center w-full">
+            <View className="items-center absolute -top-16 justify-center w-[100vw] ">
               <Image
                 source={avatar.businessman}
                 resizeMode="contain"
@@ -32,7 +50,7 @@ const Profile = () => {
               />
             </View>
             <TouchableOpacity
-              onPress={() => router.back()}
+              onPress={() => router.back("/home")}
               className="absolute top-5 left-5"
             >
               <Image
@@ -42,19 +60,8 @@ const Profile = () => {
                 className="w-6 h-6 opacity-75"
               />
             </TouchableOpacity>
-            <TouchableOpacity className="absolute top-5 right-5">
-              <Image
-                source={icons.edit}
-                resizeMode="contain"
-                className="w-6 h-6 opacity-75"
-              />
-            </TouchableOpacity>
-            <Text className="text-center font-psemibold text-gray-600 text-2xl pb-4">
-              Israel De Vera
-            </Text>
-            <Text className="text-center font-pregular text-gray-500 text-lg">
-              P-3 Macabayao Jimenez, Misamis Occidental
-            </Text>
+            <Text className="text-center font-psemibold text-gray-600 text-2xl pb-3"></Text>
+            <ProfileActions />
           </View>
         </View>
       </ScrollView>
