@@ -27,9 +27,9 @@ const ActiveQueue = () => {
           >
             <View className="w-full min-h-full px-3 relative">
               <QueueCard name="JOne Doe" slot={223} isPrio={true} />
-              <QueueCard name="JOshua Mae" slot={224} />
+              <QueueCard name="JOshua Mae" slot={224} isPrio={true} />
               <QueueCard name="Karina Aguas" slot={225} />
-              <QueueCard name="James Herbert" slot={226} isPrio={true} />
+              <QueueCard name="James Herbert" slot={226} />
               <QueueCard name="JOshua Mae" slot={227} />
               <QueueCard name="Karina Aguas" slot={228} hasLeft={true} />
               <QueueCard name="James Herbert" slot={229} hasLeft={true} />
@@ -37,18 +37,17 @@ const ActiveQueue = () => {
               <QueueCard name="JOshua Mae" slot={231} />
               <QueueCard name="Karina Aguas" slot={232} />
               <QueueCard name="James Herbert" slot={233} />
-              <QueueCard name="JOne Doe" slot={2} />
               <QueueCard
                 name="Rafael AlfonosAlfonosAlfonosAlfonosAlfonosAlfonosAlfonosAlfonosAlfonosAlfonosAlfonosAlfonos"
-                slot={443}
+                slot={234}
               />
               <QueueCard
                 name="Rafael AlfonosAlfonosAlfonosAlfonosAlfonosAlfonosAlfonosAlfonosAlfonosAlfonosAlfonosAlfonos"
-                slot={443}
+                slot={235}
               />
               <QueueCard
                 name="Rafael AlfonosAlfonosAlfonosAlfonosAlfonosAlfonosAlfonosAlfonosAlfonosAlfonosAlfonosAlfonos"
-                slot={443}
+                slot={236}
               />
             </View>
           </ScrollView>

@@ -134,11 +134,11 @@ const HomeTab = () => {
               containerStyle="mr-1"
               icon={icons.history}
             />
-            <DashboardCard
+            {/* <DashboardCard
               title="VIP tokens"
               containerStyle="mx-1"
               icon={icons.token}
-            />
+            /> */}
             <DashboardCard
               title="Help"
               containerStyle="ml-1"

@@ -49,9 +49,6 @@ const QueueCard = ({ name, slot, type, isPrio, status, hasLeft }) => {
                 <Text className="py-1 text-[17px] font-pregular text-gray-600">
                   Address : Purok 2, Punta Panaon, Jimenez Misamis Occidental
                 </Text>
-                <Text className="py-1 text-[17px] font-pregular text-gray-600">
-                  Address : Purok 2, Punta Panaon, Jimenez Misamis Occidental
-                </Text>
               </>
             )}
             <Text className="pt-1 pb-4 text-[17px] font-pregular text-gray-600">
