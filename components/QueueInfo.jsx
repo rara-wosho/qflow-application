@@ -7,7 +7,7 @@ import { useFrameCallback } from "react-native-reanimated";
 const QueueInfo = ({ containerStyle, userData }) => {
   return (
     <View
-      className={`rounded-xl shadow overflow-hidden border-l-4 border-l-secondary-400 ${containerStyle}`}
+      className={`rounded-r-xl shadow overflow-hidden border-l-4 border-l-secondary-400 ${containerStyle}`}
     >
       <LinearGradient
         colors={["#f7f0ff", "#b283e9"]}

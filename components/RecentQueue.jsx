@@ -4,7 +4,7 @@ import RecentQueueCard from "./RecentQueueCard.jsx";
 const RecentQueue = () => {
   return (
     <View className="py-3">
-      <View className="flex-row justify-between items-center mb-2">
+      <View className="flex-row justify-between items-center mb-3">
         <Text className="text-lg font-psemibold text-gray-600">
           Recent Queue
         </Text>
@@ -12,9 +12,8 @@ const RecentQueue = () => {
           <Text className="text-white">View All</Text>
         </TouchableOpacity>
       </View>
-      <RecentQueueCard />
-      <RecentQueueCard />
-      <RecentQueueCard />
+      <RecentQueueCard name="Admission Forms" slot={23} />
+      <RecentQueueCard name="SSC Penalty" slot={45} />
     </View>
   );
 };

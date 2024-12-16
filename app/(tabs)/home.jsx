@@ -9,9 +9,11 @@ import { doc, getDoc } from "firebase/firestore";
 import { auth, db } from "../../firebaseConfig";
 import { onAuthStateChanged } from "firebase/auth";
 
+// COMPONENTS
 import DashboardCard from "../../components/DashboardCard.jsx";
 import QueueInfo from "../../components/QueueInfo.jsx";
 import RecentQueue from "../../components/RecentQueue.jsx";
+import ManageQueue from "../../components/ManageQueue.jsx";
 
 import icons from "../../constants/icons.js";
 import Entypo from "@expo/vector-icons/Entypo";
@@ -57,7 +59,7 @@ const HomeTab = () => {
       <ScrollView>
         <View className="w-full min-h-full py-4 px-4">
           {/* HEADING */}
-          <View className="heading rounded-xl shadow-sm pt-2 pb-4 flex-row space-x-3 justify-between items-center">
+          <View className="heading bg-primaryBackground rounded-xl shadow-sm pt-2 pb-4 flex-row space-x-3 justify-between items-center">
             <View className="flex-col">
               <View className="flex-row">
                 <Text className="text-2xl font-pregular text-gray-600">
@@ -96,9 +98,7 @@ const HomeTab = () => {
                 </TouchableOpacity>
               )}
               <View className="shadow-sm">
-                <TouchableOpacity
-                  onPress={() => router.push(`/profile?userID=${user?.userID}`)}
-                >
+                <TouchableOpacity onPress={() => router.push("/profile")}>
                   <Image
                     source={
                       user?.profilePic
@@ -145,6 +145,8 @@ const HomeTab = () => {
               icon={icons.question}
             />
           </View>
+
+          <ManageQueue isPremium={true} />
           <RecentQueue />
         </View>
       </ScrollView>

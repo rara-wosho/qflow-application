@@ -129,9 +129,9 @@ const SignUp = () => {
   };
 
   return (
-    <SafeAreaView className="bg-primary h-full">
+    <SafeAreaView className="bg-primary h-full ">
       <ScrollView>
-        <View className=" min-h-full w-full items-center justify-start">
+        <View className="min-h-[100vh] w-full items-center justify-start">
           <View className="items-center w-full pt-3 pb-2 relative">
             <Image
               className="w-48 h-20"
@@ -146,7 +146,7 @@ const SignUp = () => {
               <Ionicons name="chevron-back" size={24} color="white" />
             </Pressable>
           </View>
-          <View className="px-3 pb-8 pt-4 w-full rounded-t-3xl bg-white flex-1">
+          <View className="px-3 pb-8 pt-4 w-full rounded-t-3xl bg-white h-[100%] ">
             <View className="flex-row space-x-2 items-end justify-center py-3">
               <Image
                 source={icons.profile}

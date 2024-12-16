@@ -30,9 +30,9 @@ const SubscriptionScreen = () => {
             <TouchableOpacity onPress={() => router.back()}>
               <Ionicons name="chevron-back" size={24} color="gray" />
             </TouchableOpacity>
-            <TouchableOpacity>
+            {/* <TouchableOpacity>
               <SimpleLineIcons name="options" size={24} color="gray" />
-            </TouchableOpacity>
+            </TouchableOpacity> */}
           </View>
           <View className="justify-start items-center">
             <Text className="text-3xl font-psemibold text-primary text-center mb-3">
@@ -82,13 +82,13 @@ const SubscriptionScreen = () => {
               title="Pay Now"
               handlePress={handleSubscription}
             />
-            <View className="mb-3 mt-4">
+            {/* <View className="mb-3 mt-4">
               <TouchableOpacity className="bg-gray-200 rounded-xl py-3">
                 <Text className="font-psemibold text-center text-xl text-red-400">
                   Cancel Subscription
                 </Text>
               </TouchableOpacity>
-            </View>
+            </View> */}
           </View>
         </View>
       </ScrollView>

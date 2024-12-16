@@ -1,22 +1,22 @@
 import { View, Text, ScrollView, Image, TouchableOpacity } from "react-native";
 import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useRouter } from "expo-router";
-import { LinearGradient } from "expo-linear-gradient";
+import { useRouter, useLocalSearchParams } from "expo-router";
 
 import icons from "../../constants/icons";
 import QueueCard from "../../components/QueueCard";
-import { Dialog } from "react-native-ui-lib";
 import QueueStatusCard from "../../components/QueueStatusCard";
 import YourSlot from "../../components/YourSlot";
 
 const ActiveQueue = () => {
+  const { queueCode } = useLocalSearchParams();
   const [activeQueue, setActiveQueue] = useState(null);
   const router = useRouter();
 
+  console.log(queueCode);
   return (
     <SafeAreaView className="h-full bg-primaryBackground">
-      {activeQueue ? (
+      {true ? (
         <>
           <View className="px-3">
             <QueueStatusCard />
@@ -31,8 +31,8 @@ const ActiveQueue = () => {
               <QueueCard name="Karina Aguas" slot={225} />
               <QueueCard name="James Herbert" slot={226} isPrio={true} />
               <QueueCard name="JOshua Mae" slot={227} />
-              <QueueCard name="Karina Aguas" slot={228} />
-              <QueueCard name="James Herbert" slot={229} />
+              <QueueCard name="Karina Aguas" slot={228} hasLeft={true} />
+              <QueueCard name="James Herbert" slot={229} hasLeft={true} />
               <QueueCard name="JOne Doe" slot={230} />
               <QueueCard name="JOshua Mae" slot={231} />
               <QueueCard name="Karina Aguas" slot={232} />
